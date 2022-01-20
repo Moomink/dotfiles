@@ -60,6 +60,7 @@ texbuild() {
     filename=`echo $1 | cut -d "." -f 1`
     docker run --rm -it -v $(pwd):/workdir paperist/alpine-texlive-ja \
         sh -c "uplatex $1 ;dvipdfmx  $filename.dvi"
+    rm $filename.aux $filename.dvi $filename.log -f
     }
 
 setopt magic_equal_subst
@@ -69,3 +70,7 @@ export CHROME_EXECUTABLE="/usr/bin/vivaldi-stable"
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
+
+#Go lang
+export GOPATH=~/.go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
