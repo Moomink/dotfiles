@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+    prometheus:
+        image: prom/prometheus:latest
+        container_name: "prometheus"
+        restart: always
+        networks:
+          bridge_net:
+            ipv4_address: 172.66.99.10
+            aliases:
+              - prometheus
+        volumes:
+          - ./prometheus:/etc/prometheus
+        depends_on:
+          - node_exporter
+
+    node_exporter:
+        image: prom/node-exporter:latest
+        command:
+          - '--path.rootfs=/host'
+        pid: host
+        restart: always
+        container_name: "node_exporter"
+        networks:
+          bridge_net:
+            ipv4_address: 172.66.99.20
+            aliases:
+              - node_exporter
+        volumes:
+          - '/:/host:ro,rslave'
+
+    grafana:
+        container_name: "grafana"
+        image: grafana/grafana:latest
+        restart: always
+        network_mode: host
+        user: "${UID}:${GID}"
+        volumes:
+            - ./grafana/data:/var/lib/grafana
+              #networks:
+            #bridge_net:
+            #  ipv4_address: 172.66.99.30
+            #  aliases:
+            #    - grafana
+            #hostnet: {}
+        ports:
+            - "127.0.0.1:300:3000"
+
+networks:
+  hostnet:
+    external: true
+    name: host
+  bridge_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.66.99.0/24
