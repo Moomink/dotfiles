@@ -292,5 +292,7 @@ font pango:SauceCodePro Medium 11
 # ScreenShot
     bindsym $mod+Shift+s exec grim -g "`slurp`" $(xdg-user-dir PICTURES)/ScreenShot/$(date +'%F-%T.png')
 
+# share screen
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
 include /etc/sway/config.d/*
