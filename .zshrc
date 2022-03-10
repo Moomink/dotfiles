@@ -77,3 +77,7 @@ export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
 # ls_extended
 alias ls="ls_extended"
+
+# deno
+export DENO_INSTALL="$HOME/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
