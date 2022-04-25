@@ -1,13 +1,18 @@
 # Default config for sway
-#
+exec fcitx5
+
 # Copy this to ~/.config/sway/config and edit it to your liking.
 #
 # Read `man 5 sway` for a complete reference.
 
+for_window [title="^.*"] border pixel 1, title_format "<b> %class >> %title </b>"
+default_border pixel 1
+
+
 ### Variables
 #
-# Logo key. Use Mod1 for Alt.
-set $mod Mod4
+# Logo key. Use mod1 for Alt.
+set $mod mod4
 # Home row direction keys, like vim
 set $left h
 set $down j
@@ -15,53 +20,35 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term alacritty
-# Your preferred application launcher
-# Note: pass the final command to swaymsg so that the resulting window can be opened
-# on the original workspace that the command was run on.
-##set $menu dmenu_path | dmenu | xargs swaymsg exec --
+
+# menu
 set $menu exec wofi --show drun
 
 
 include /etc/sway/config-vars.d/*
-
+include ~/.config/sway/variables
 ### Output configuration
 #
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-##output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-# Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
-### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+
+############### Apply GTK settings ##################
+
+exec_always import-gsettings
+
+###############     Autostart      ##################
+
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && \
+    dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec ~/.a
+
 
 ### Input configuration
-#
-# Example configuration:
-#
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
-#
-# You can get the names of your inputs by running: swaymsg -t get_inputs
-# Read `man 5 sway-input` for more information about this section.
-
 input "type:keyboard" {
     xkb_layout "jp"
     xkb_variant ""
@@ -71,15 +58,38 @@ input "type:keyboard" {
     repeat_rate 20
 }
 input <identifier> xkb_model "pc101"
+
+# touch pad
+input "type:touchpad" {
+	tap enabled
+	dwt enabled
+	drag enabled
+	scroll_factor 0.7
+	pointer_accel 0.2
+	accel_profile adaptive
+}
+
 ### Key bindings
 # Function Key:
-    bindsym XF86MonBrightnessDown exec brightnessctl set 2%-
-    bindsym XF86MonBrightnessUp exec brightnessctl set +2%
-    bindsym XF86AudioRaiseVolume exec amixer sset Master 5%+
-    bindsym XF86AudioLowerVolume exec amixer sset Master 5%-
-    bindsym XF86AudioMute exec amixer sset Master toggle
-    bindsym XF86AudioMicMute exec amixer sset Capture toggle
-#
+
+bindsym XF86MonBrightnessDown exec brightnessctl set 2%-
+bindsym XF86MonBrightnessUp exec brightnessctl set +2%
+
+# Parrot OS
+#bindsym XF86AudioRaiseVolume exec amixer sset Master 5%+
+#bindsym XF86AudioLowerVolume exec amixer sset Master 5%-
+#bindsym XF86AudioMute exec amixer sset Master toggle
+#bindsym XF86AudioMicMute exec amixer sset Capture toggle
+
+# Arch Linux
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioStop exec playerctl stop
+bindsym XF86AudioMute exec pamixer -t
+bindsym XF86AudioMicMute exec pamixer --default-source -t
+bindsym XF86AudioRaiseVolume exec pamixer -i 2
+bindsym XF86AudioLowerVolume exec pamixer -d 2
 # Basics:
 #
     bindsym $mod+Escape reload
@@ -230,20 +240,45 @@ bar {
 }
 
 
+############    application settings   ############
 for_window [instance="libreoffice"] {
     border normal
 }
 
 for_window [class=".*"] inhibit_idle fullscreen
 for_window [app_id=".*"] inhibit_idle fullscreen
+for_window [app_id="(?i)(?:blueman-manager|azote|gnome-disks|nwg-shell-config)"] floating enable
+for_window [app_id="(?i)(?:pavucontrol|nm-connection-editor|gsimplecal|galculator)"] floating enable
+for_window [class="(?i)(?:lxappearance)"] floating enable
+for_window [app_id="(?i)(?:firefox|chromium)"] border none
+for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
 
-
+# switch to workspace with urgent window
+for_window [urgent="latest"] focus
+focus_on_window_activation   focus
 #xwayland disable
 default_border none
 default_floating_border normal
 
 
 smart_borders no_gaps
+###############      Border & Gaps     ###############
+
+# changing border style
+bindsym $mod+n border normal
+bindsym $mod+y border pixel 1
+bindsym $mod+u border none
+
+# change gaps
+#bindsym $mod+plus                gaps inner current plus  5
+#bindsym $mod+minus               gaps inner current minus 5
+#bindsym $mod+Shift+plus          gaps outer current plus  5
+#bindsym $mod+Shift+minus         gaps outer current minus 5
+#bindsym $mod+Control+plus        gaps inner all     plus  5
+#bindsym $mod+Control+minus       gaps inner all     minus 5
+#bindsym $mod+Control+Shift+plus  gaps outer all     plus  5
+#bindsym $mod+Control+Shift+minus gaps outer all     minus 5
+
 # Wall paper
 set $wallpapers_path $HOME/Pictures/WallPaper
 
@@ -278,6 +313,7 @@ set $lock 'swaylock \
 bindsym $mod+Alt+l exec $lock
 bindswitch lid:off exec $lock
 
+# Idle
 set $idlelock  swayidle -w \
     timeout 300 $lock \
     timeout 600 'swaymsg "output * dpms off"' \
@@ -294,5 +330,10 @@ font pango:SauceCodePro Medium 11
 
 # share screen
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+
+exec mako
+
+popup_during_fullscreen smart
 
 include /etc/sway/config.d/*
