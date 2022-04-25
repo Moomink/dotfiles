@@ -69,6 +69,16 @@ input "type:touchpad" {
 	accel_profile adaptive
 }
 
+input "2:14:ETPS/2_Elantech_TrackPoint" {
+    pointer_accel 0.75
+    accel_profile flat
+}
+
+
+output HEADLESS-1 {
+    pos 1980,0
+    mode 1920x1080
+}
 ### Key bindings
 # Function Key:
 
@@ -331,9 +341,8 @@ font pango:SauceCodePro Medium 11
 # share screen
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
-
 exec mako
-
+exec redshift -l 35.73:139.91 -m wayland
 popup_during_fullscreen smart
 
 include /etc/sway/config.d/*
