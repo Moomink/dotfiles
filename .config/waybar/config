@@ -1,9 +1,12 @@
 {
     //github.com/jakehamilton
 	"layer": "top",
-	"modules-left": ["sway/workspaces","temperature", "sway/mode"],
-	"modules-center": [],
-	"modules-right": ["network", "pulseaudio", "cpu", "memory","battery"],
+	"modules-left": ["sway/workspaces","temperature","pulseaudio", "sway/mode"],
+	"modules-center": ["clock"],
+	"modules-right": ["network", "cpu", "memory","battery"],
+    "sway/mode" : {
+        "format" : "{}",
+    },
 	"mpd": {
 		"tooltip": false,
 		"format": "{stateIcon} {artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})",
@@ -14,13 +17,13 @@
             "paused": ""
         }
 	},
-        "pulseaudio": {
+    "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "{icon} {volume}% {format_source}",
+        "format": "{icon}|{volume}% {format_source}",
         "format-bluetooth": "{volume}% {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
+        "format-source": "{volume}%|",
         "format-source-muted": "",
         "format-icons": {
             "headphone": "",
@@ -33,14 +36,19 @@
         },
         "on-click": "pavucontrol"
     },
-	/*"pulseaudio": {
+	/* "pulseaudio": {
 		"tooltip": false,
 		"scroll-step": 5,
-		"format": "{icon} {volume}%",
+		"format": "{icon}{volume}% / {format_source}",
+        "format_source" : 
 		"format-icons": {
 			"default": ["奄", "奔", "墳"]
 		}
 	},*/
+    "clock":{
+        "interval": 1,
+        "format": "{:%G/%m/%e [%T]}",
+    },
 	"network": {
 		"tooltip": true,
         "format-wifi": " {essid} [{ipaddr}]",
@@ -54,19 +62,19 @@
 	},
 	"cpu": {
 		"tooltip": false,
-		"format": " {}%"
+		"format": "|{usage}%"
 	},
 	"memory": {
 		"tooltip": false,
-		"format": " {}%"
+		"format": "|{}%"
 	},
     "battery": {
         "states": {
-            "good": 95,
+            "good": 70,
             "warning": 30,
             "critical": 15
         },
-        "format": "{icon}  {capacity}%",
+        "format": "{icon}|{capacity}%",
         "format-charging": " {capacity}%",
         "format-plugged": " {capacity%}",
         "format-alt": "{time} {icon}",
