@@ -48,8 +48,8 @@ services:
             #  aliases:
             #    - grafana
             #hostnet: {}
-        ports:
-            - "127.0.0.1:300:3000"
+            #ports:
+            #- "127.0.0.1:300:3000"
 
 networks:
   hostnet:

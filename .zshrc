@@ -47,24 +47,22 @@ texbuild() {
     rm $filename.dvi $filename.log -f
     }
 
+
+mark2pdf(){
+    filename=`echo $1 | cut -d "." -f 1`
+    docker run --rm -v $(pwd):/data frozenbonito/pandoc-eisvogel-ja:plantuml \
+    --listings \
+    -N \
+    --toc \
+    -V linkcolor=blue \
+    -V table-use-row-colors=true \
+    -V titlepage=true \
+    -V toc-own-page=true \
+    -V toc-title="目次" \
+    -o $filename.pdf \
+    $filename.md
+}
 setopt magic_equal_subst
-
-export PATH="$PATH:$HOME/develop/flutter/bin"
-export CHROME_EXECUTABLE="/usr/bin/vivaldi-stable"
-
-export PNPM_HOME="$HOME/.local/share/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-
-#Go lang
-export GOPATH=~/.go
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
-
-# ls_extended
-alias ls="lsd"
-
-# deno
-export DENO_INSTALL="$HOME/.deno"
-export PATH="$DENO_INSTALL/bin:$PATH"
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -97,8 +95,41 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 source "$HOME/.zsh/.zshrc"
 
+# Flutter 
+export PATH="$PATH:$HOME/develop/flutter/bin"
+export CHROME_EXECUTABLE="/usr/bin/vivaldi-stable"
+
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
+#Go lang
+export GOPATH=~/.go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+
+# ls_extended
+alias ls="lsd"
+
+# deno
+export DENO_INSTALL="$HOME/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+
+
 # Google Cloud SDK
 export CLOUDSDK_PYTHON=$(which python3)
 
 # Dart webdev
 export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+# popd / pushd
+pushd () {
+    builtin pushd "$@" > /dev/null
+}
+
+popd () {
+    builtin popd "$@" > /dev/null
+}
+export pushd popd
+
+# direnv
+eval "$(direnv hook zsh)"
+

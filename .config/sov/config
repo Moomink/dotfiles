@@ -11,7 +11,7 @@ timeout 200
 gap 10
 
 # columns
-columns 10
+columns 5
 
 # thumbnail to workspace ratio
 ratio 8

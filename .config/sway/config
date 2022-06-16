@@ -21,7 +21,7 @@ set $right l
 set $term alacritty
 
 # menu
-set $menu exec wofi --show drun
+set $menu exec wofi --show drun -I
 
 
 include /etc/sway/config-vars.d/*
@@ -81,8 +81,8 @@ input "2:14:ETPS/2_Elantech_TrackPoint" {
 ### Key bindings
 # Function Key:
 
-bindsym XF86MonBrightnessDown exec brightnessctl set 2%-
-bindsym XF86MonBrightnessUp exec brightnessctl set +2%
+bindsym XF86MonBrightnessDown exec lightctl -2%
+bindsym XF86MonBrightnessUp exec lightctl +2%
 
 # Parrot OS
 #bindsym XF86AudioRaiseVolume exec amixer sset Master 5%+
@@ -95,10 +95,11 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioStop exec playerctl stop
-bindsym XF86AudioMute exec pamixer -t
+bindsym XF86AudioMute exec volumectl %
 bindsym XF86AudioMicMute exec pamixer --default-source -t
-bindsym XF86AudioRaiseVolume exec pamixer -i 2
-bindsym XF86AudioLowerVolume exec pamixer -d 2
+bindsym XF86AudioRaiseVolume exec volumectl +2%
+bindsym XF86AudioLowerVolume exec volumectl -2%
+bindsym XF86WLAN exec rfkill toggle all
 # Basics:
 #
     bindsym $mod+Escape reload
@@ -153,7 +154,7 @@ bindsym XF86AudioLowerVolume exec pamixer -d 2
 # sov
 exec rm -f /tmp/sovpipe && mkfifo /tmp/sovpipe && tail -f /tmp/sovpipe | sov
 
-    # Switch to workspace
+
 bindsym --no-repeat $mod+1 workspace number 1; exec "echo 1 > /tmp/sovpipe"
 bindsym --no-repeat $mod+2 workspace number 2; exec "echo 1 > /tmp/sovpipe"
 bindsym --no-repeat $mod+3 workspace number 3; exec "echo 1 > /tmp/sovpipe"
@@ -323,7 +324,7 @@ set $lock 'swaylock \
       --hide-keyboard-layout \
       --indicator-radius 110 \
       --indicator-thickness 12 \
-      --ring-color 66F6FF \
+      --ring-color 00BfFF \
       --key-hl-color 0000FF \
       --line-color 7ACBFF \
       --line-uses-inside \
@@ -333,6 +334,9 @@ set $lock 'swaylock \
       --separator-color 00FFFF \
       -f'
 
+
+
+bindsym --locked $mod+Alt+b output eDP-1 dpms toggle
 
 bindsym $mod+Alt+l exec $lock
 bindswitch lid:off exec $lock
@@ -351,6 +355,10 @@ font pango:SauceCodePro Medium 11
 
 # ScreenShot
     bindsym $mod+Shift+s exec grim -g "`slurp`" $(xdg-user-dir PICTURES)/ScreenShot/$(date +'%F-%T.png')
+
+
+exec "avizo-service"
+
 
 # share screen
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
