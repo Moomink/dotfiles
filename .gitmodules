@@ -1,0 +1,3 @@
+[submodule ".config/nvim/colors/vim-colors-hatsunemiku"]
+	path = .config/nvim/colors/vim-colors-hatsunemiku
+	url = https://github.com/4513ECHO/vim-colors-hatsunemiku.git
