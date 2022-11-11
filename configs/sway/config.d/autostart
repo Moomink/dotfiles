@@ -1,0 +1,28 @@
+# AutoStart
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && \
+    dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+
+## sov
+exec rm -f /tmp/sovpipe && mkfifo /tmp/sovpipe && tail -f /tmp/sovpipe | sov
+
+
+## WallPaper
+output * bg `find $wallpapers_path -type f | shuf -n 1` fill
+
+## screen Lock
+bindswitch lid:off exec $lock
+
+
+exec "avizo-service"
+
+# share screen
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+exec mako
+exec redshift -l 35.73:139.91 -m wayland -t 6500K:3900K
+popup_during_fullscreen smart
+
+exec $idlelock
