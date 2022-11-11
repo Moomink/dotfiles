@@ -31,37 +31,18 @@ SAVEHIST=1000000
 # require install package "time" sudo apt install time
 # alias time="/usr/bin/time -f '\t%E real,\t%U user,\t%S sys,\t%K amem,\t%M mmem'"
 # Display last command interminal
-echo -en "\e]2;Parrot Terminal\a"
+echo -en "\e]2;Japanese Terminal\a"
 preexec () { print -Pn "\e]0;$1 - Parrot Terminal\a" }
 
 # add for User
+#
+#Function
+source "$ZDOTDIR/function.zsh"
 ## aliases
 alias mocp="mocp -T hybrid -y"
 alias xclip="xclip -selection c"
 
-## fonction
-texbuild() {
-    filename=`echo $1 | cut -d "." -f 1`
-    docker run --rm -it -v $(pwd):/workdir paperist/alpine-texlive-ja \
-        sh -c "uplatex $1 ;dvipdfmx  $filename.dvi"
-    rm $filename.dvi $filename.log -f
-    }
 
-
-mark2pdf(){
-    filename=`echo $1 | cut -d "." -f 1`
-    docker run --rm -v $(pwd):/data frozenbonito/pandoc-eisvogel-ja:plantuml \
-    --listings \
-    -N \
-    --toc \
-    -V linkcolor=blue \
-    -V table-use-row-colors=true \
-    -V titlepage=true \
-    -V toc-own-page=true \
-    -V toc-title="目次" \
-    -o $filename.pdf \
-    $filename.md
-}
 setopt magic_equal_subst
 
 ### Added by Zinit's installer
@@ -120,16 +101,9 @@ export CLOUDSDK_PYTHON=$(which python3)
 # Dart webdev
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
-# popd / pushd
-pushd () {
-    builtin pushd "$@" > /dev/null
-}
-
-popd () {
-    builtin popd "$@" > /dev/null
-}
-export pushd popd
-
 # direnv
 eval "$(direnv hook zsh)"
 
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
