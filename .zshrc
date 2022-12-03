@@ -22,10 +22,11 @@ zstyle ':autocomplete:*' min-input 2
 
 # Save type history for completion and easier life
 setopt appendhistory
+setopt extended_history
 ZDOTDIR="$HOME/.zsh"
 HISTFILE=$ZDOTDIR/.zsh_history
-HISTSIZE=100000
-SAVEHIST=1000000
+HISTSIZE=1000000
+SAVEHIST=10000000
 
 # Useful alias for benchmarking programs
 # require install package "time" sudo apt install time
@@ -94,6 +95,9 @@ alias ls="lsd"
 export DENO_INSTALL="$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
+
+# Android Tools
+export PATH=$PATH:/opt/android-sdk/platform-tools/
 
 # Google Cloud SDK
 export CLOUDSDK_PYTHON=$(which python3)
