@@ -27,7 +27,6 @@ include ~/.config/sway/config.d/variable
 
 exec_always import-gsettings
 
-###############     Autostart      ##################
 
 
 
@@ -40,8 +39,9 @@ input "type:keyboard" {
     xkb_capslock disable
     repeat_delay 500
     repeat_rate 20
+    xkb_model "pc101"
 }
-input <identifier> xkb_model "pc101"
+
 
 # touch pad
 input "type:touchpad" {
@@ -51,18 +51,24 @@ input "type:touchpad" {
 	scroll_factor 0.7
 	pointer_accel 0.2
 	accel_profile adaptive
+    natural_scroll disable
 }
 
-input "2:14:ETPS/2_Elantech_TrackPoint" {
-    pointer_accel 0.75
+input Type:Mouse {
+    scroll_factor 3.5
+    pointer_accel -1
     accel_profile flat
 }
 
 
-#output HEADLESS-1 {
-#    pos 1980,0
-#    mode 1920x1080
-#}
+input "2:14:ETPS/2_Elantech_TrackPoint" {
+    pointer_accel 0.75
+    accel_profile flat
+    scroll_factor 2
+}
+
+
+
 
 # Basics:
 #
@@ -217,7 +223,7 @@ for_window [app_id=".*"] inhibit_idle fullscreen
 for_window [app_id="(?i)(?:blueman-manager|azote|gnome-disks|nwg-shell-config)"] floating enable
 for_window [app_id="(?i)(?:pavucontrol|nm-connection-editor|gsimplecal|galculator)"] floating enable
 for_window [class="(?i)(?:lxappearance)"] floating enable
-for_window [app_id="(?i)(?:firefox|chromium)"] border none
+for_window [app_id="(?i)(?:firefox|chromium|Vivaldi-stable)"] border none
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
 
 # switch to workspace with urgent window
@@ -252,3 +258,6 @@ include ~/.config/sway/config.d/keybind
 
 # autostart
 include ~/.config/sway/config.d/autostart
+
+# outputs sway-save-outputs
+include ~/.config/sway/outputs

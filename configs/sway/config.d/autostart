@@ -16,6 +16,8 @@ output * bg `find $wallpapers_path -type f | shuf -n 1` fill
 bindswitch lid:off exec $lock
 
 
+exec bash ~/.config/sway/swayon.sh
+
 exec "avizo-service"
 
 # share screen
