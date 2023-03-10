@@ -1,7 +1,19 @@
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv export zsh)"
+
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
+
 # Prompt
 PROMPT="%F{red}┌[%f%F{cyan}%m%f%F{red}]─[%f%F{yellow}%D{%H:%M-%d/%m}%f%F{red}]─[%f%F{magenta}%d%f%F{red}]%f"$'\n'"%F{red}└╼%f%F{green}$USER%f%F{yellow}$%f"
 # Export PATH$
 export PATH=~/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:$PATH
+
+
+
+
 
 # alias
 alias ls='ls --color=auto'
@@ -16,7 +28,8 @@ alias egrep='egrep --color=auto'
 # Requires: zsh-autosuggestions (packaging by Debian Team)
 # Jobs: Fish-like suggestion for command histor
 # Select all suggestion instead of top on result only
-zstyle ':autocomplete:tab:*' insert-unambiguous yes
+
+#zstyle ':autocomplete:tab:*' insert-unambiguous yes
 zstyle ':autocomplete:tab:*' widget-style menu-select
 zstyle ':autocomplete:*' min-input 2
 
