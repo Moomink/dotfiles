@@ -85,10 +85,13 @@ zinit light-mode for \
 
 zinit light littleq0903/gcloud-zsh-completion
 zinit light zsh-users/zsh-syntax-highlighting
-zinit load marlonrichert/zsh-autocomplete
+zinit light marlonrichert/zsh-autocomplete
 zinit light zsh-users/zsh-autosuggestions
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 source "$HOME/.zsh/.zshrc"
+
+# Develop bin
+export PATH="$PATH:$HOME/develop/bin"
 
 # Flutter 
 export PATH="$PATH:$HOME/develop/flutter/bin"
@@ -119,8 +122,4 @@ export CLOUDSDK_PYTHON=$(which python3)
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 # direnv
-eval "$(direnv hook zsh)"
-
-# tabtab source for packages
-# uninstall by removing these lines
-[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+#eval "$(direnv hook zsh)"
