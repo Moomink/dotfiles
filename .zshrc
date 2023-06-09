@@ -94,32 +94,14 @@ source "$HOME/.zsh/.zshrc"
 export PATH="$PATH:$HOME/develop/bin"
 
 # Flutter 
-export PATH="$PATH:$HOME/develop/flutter/bin"
 export CHROME_EXECUTABLE="/usr/bin/vivaldi-stable"
 
-export PNPM_HOME="$HOME/.local/share/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-
-#Go lang
-export GOPATH=~/.go
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
 # ls_extended
 alias ls="lsd"
 
-# deno
-export DENO_INSTALL="$HOME/.deno"
-export PATH="$DENO_INSTALL/bin:$PATH"
-
-
-# Android Tools
-export PATH=$PATH:/opt/android-sdk/platform-tools/
-
 # Google Cloud SDK
 export CLOUDSDK_PYTHON=$(which python3)
-
-# Dart webdev
-export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 # direnv
 #eval "$(direnv hook zsh)"

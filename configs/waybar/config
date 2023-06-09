@@ -1,7 +1,7 @@
 {
     //github.com/jakehamilton
 	"layer": "top",
-	"modules-left":[ "wlr/workspaces","temperature","pulseaudio", "sway/mode"],
+	"modules-left":[ "wlr/workspaces","temperature","pulseaudio"],
 	"modules-center": ["clock"],
 	"modules-right": ["network", "cpu", "memory","battery"],
     "wlr/workspaces": {
@@ -86,11 +86,11 @@
 	},
 	"cpu": {
 		"tooltip": false,
-		"format": "|{usage}%"
+		"format": " | {usage}%"
 	},
 	"memory": {
 		"tooltip": false,
-		"format": "|{}%"
+		"format": " | {}%"
 	},
     "battery": {
         "states": {
@@ -98,7 +98,7 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "{icon}|{capacity}%",
+        "format": "{icon} | {capacity}%",
         "format-charging": " {capacity}%",
         "format-plugged": " {capacity%}",
         "format-alt": "{time} {icon}",
