@@ -72,6 +72,9 @@ window#waybar.PCSX2 #window {
 	text-shadow: inherit;
 	color: #ff79c6;
 }
+#workspaces button.active {
+	color: #ee5396;
+}
 
 #mpd {
 	margin-top: 2px;

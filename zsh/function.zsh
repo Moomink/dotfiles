@@ -34,7 +34,17 @@ popd () {
 export pushd popd
 
 # Notify
-term-notify(){
+term-notify() {
     iconPath=`find /usr/share/icons | grep $TERM | head -1`
     notify-send -i ${iconPath} $1 -t 5
+}
+
+nix-patch() {
+    filetype=$(file -i $1)
+    if [[ ! $(echo $filetype  | grep "binary") ]]; then
+        echo "This file is not Binary file."
+        return 1
+    fi
+    nix-shell -p patchelf \
+        --run 'patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $1'
 }

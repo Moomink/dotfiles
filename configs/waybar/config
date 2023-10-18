@@ -6,6 +6,8 @@
 	"modules-right": ["network", "cpu", "memory","battery"],
     "wlr/workspaces": {
      "format": "{icon}",
+     "format-active": "{icon}",
+     "onclick": "activate",
      "on-scroll-up": "hyprctl dispatch workspace e+1",
      "on-scroll-down": "hyprctl dispatch workspace e-1"
     },
@@ -23,14 +25,14 @@
         // "scroll-step": 1, // %, can be a float
         "format": "{icon}|{volume}% {format_source}",
         "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
+        "format-bluetooth-muted": "󰝟 {icon} {format_source}",
+        "format-muted": "󰝟 {format_source}",
         "format-source": "{volume}%|",
         "format-source-muted": "",
         "format-icons": {
             "headphone": "",
-            "hands-free": "",
-            "headset": "",
+            "hands-free": "󱡏",
+            "headset": "󰋎",
             "phone": "",
             "portable": "",
             "car": "",
@@ -86,11 +88,11 @@
 	},
 	"cpu": {
 		"tooltip": false,
-		"format": " | {usage}%"
+		"format": " | {usage}%"
 	},
 	"memory": {
 		"tooltip": false,
-		"format": " | {}%"
+		"format": " | {}%"
 	},
     "battery": {
         "states": {
@@ -99,7 +101,7 @@
             "critical": 15
         },
         "format": "{icon} | {capacity}%",
-        "format-charging": " {capacity}%",
+        "format-charging": "󱐋 {capacity}%",
         "format-plugged": " {capacity%}",
         "format-alt": "{time} {icon}",
         // "format-good": "", // An empty format will hide the module
